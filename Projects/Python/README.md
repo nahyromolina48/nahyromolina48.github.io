@@ -1,3 +1,3 @@
 # Project Central Focus
 ### Networking and Security
-* **Shell**
+* **Shell** - *Manipulation with ports and sockets, centered about Command line and security access*
