@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package scaryhouse;
 
 import java.util.HashMap;
@@ -18,20 +13,19 @@ import org.xml.sax.helpers.DefaultHandler;
 public class Parser extends DefaultHandler {
     Player person;
     Room r;
-
     HashMap<String, Room> rooms = new HashMap<>();
-    
-    
+
     @Override
-    public void startDocument() throws SAXException {  
+    public void startDocument() throws SAXException {
     }
 
     @Override
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
-        String name = atts.getValue("name");
-        String facts = atts.getValue("description");
         if (qName.equals("room")) {
+            String name = atts.getValue("name");
+            String facts = atts.getValue("description");
             r = new Room(name, facts);
+            rooms.put(name, r);
             String north = atts.getValue("north");
             String south = atts.getValue("south");
             String east = atts.getValue("east");
@@ -51,41 +45,48 @@ public class Parser extends DefaultHandler {
             if ((west != null) && (rooms.get(west) != null)) {
                 r.setWest(rooms.get(west));
                 rooms.get(west).setEast(r);
-            }
+            }            
         }
         if (qName.equals("item")) {
-            Item obj = new Item(name,facts);
+            String name = atts.getValue("name");
+            String facts = atts.getValue("description");
+            Item obj = new Item(name, facts);
             String[] list = atts.getValue("actions").split(",");
-            for(String act : list){
+            for (String act : list) {
                 act = act.toUpperCase();
                 obj.addAction(Item.Actions.valueOf(act));
             }
             r.addItem(obj);
         }
         if (qName.equals("adult")) {
+            String name = atts.getValue("name");
+            String facts = atts.getValue("description");
             Adult old = new Adult(name, facts);
             r.addCharacter(old);
             old.setRoom(r);
 
         }
         if (qName.equals("child")) {
+            String name = atts.getValue("name");
+            String facts = atts.getValue("description");
             Child young = new Child(name, facts);
             r.addCharacter(young);
             young.setRoom(r);
         }
         if (qName.equals("player")) {
+            String name = atts.getValue("name");
+            String facts = atts.getValue("description");
             person = new Player(name, facts);
             r.addCharacter(person);
             person.setRoom(r);
         }
-        rooms.put(name, r);
     }
 
     @Override
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-        
+
     }
-    
+
     @Override
     public void endDocument() throws SAXException {
         person.play();
