@@ -1,11 +1,10 @@
 package scaryhouse;
+
 import java.util.Scanner;
+
 public class Player extends Characters {
 
     Room current;
-    Adult adult;
-    Child child;
-    Item item;
 
     public Player(String name, String description) {
         super(name, description);
@@ -35,6 +34,7 @@ public class Player extends Characters {
 
     public void play() {
         String command;
+        String itemName;
         Scanner kb = new Scanner(System.in);
         Help();
         System.out.println("\nWelcome to my Haunted house, beware of the haunting and the creepy visitor!!");
@@ -63,12 +63,12 @@ public class Player extends Characters {
                     }
                     break;
                 case "s":
-                    try{
+                    try {
                         current.removeCharacter(this);
                         current.getSouth().addCharacter(this);
                         this.setRoom(current);
                         System.out.println(this.name + " moved south to the " + current.getName());
-                    }catch (NullPointerException e) {
+                    } catch (NullPointerException e) {
                         System.out.println("No room exist in that direction please try again");
                     }
                     break;
@@ -78,7 +78,7 @@ public class Player extends Characters {
                         current.getEast().addCharacter(this);
                         this.setRoom(current);
                         System.out.println(this.name + " moved east to the " + current.getName());
-                    }catch (NullPointerException e) {
+                    } catch (NullPointerException e) {
                         System.out.println("No room exist in that direction please try again");
                     }
                     break;
@@ -88,12 +88,33 @@ public class Player extends Characters {
                         current.getWest().addCharacter(this);
                         this.setRoom(current);
                         System.out.println(this.name + " moved west to the " + current.getName());
-                    }catch (NullPointerException e) {
+                    } catch (NullPointerException e) {
                         System.out.println("No room exist in that direction please try again");
                     }
                     break;
-                case "scare":
-                    current.printItemList();
+                case "possess":
+                    System.out.println(current.printItemList());
+                    System.out.println("What item would you likc to possess?");
+                    itemName = kb.nextLine();
+                    if (current.isPresent(itemName,command.toUpperCase())) {
+                        //for loop and if as a method
+                        for (Characters c : current.people) {
+                            if (c instanceof Adult) {
+                                ((Adult) c).reaction(Item.Actions.valueOf(command.toUpperCase()));
+                                System.out.println("I scared an adult");
+                            }
+                            if (c instanceof Child) {
+                                ((Child) c).reaction(Item.Actions.valueOf(command.toUpperCase()));
+                                System.out.println("I scared a child");
+                            }
+                        }
+                    }else{
+                        System.out.println("Invalid entry");
+                    }
+                    break;
+                case "Shake":
+                    break;
+                case "Throw":
                     break;
                 default:
                     System.out.println("Error!!!");
@@ -104,7 +125,7 @@ public class Player extends Characters {
 
     @Override
     public String toString() {
-        return "Name: " + name + " Description: " + description;
+        return "\nName: " + name + " Description: " + description;
     }
 
 }

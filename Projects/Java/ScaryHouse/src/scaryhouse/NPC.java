@@ -4,11 +4,6 @@
  * and open the template in the editor.
  */
 package scaryhouse;
-
-/**
- *
- * @author Nahyro
- */
 public class NPC extends Characters{
     int health;
     int opponents;

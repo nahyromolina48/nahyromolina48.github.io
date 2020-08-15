@@ -33,9 +33,34 @@ public class Adult extends NPC {
         this.r = r;
     }
     
+    public int reaction(Item.Actions s){
+        switch(s){
+            case POSSESS:
+                health = health - 15;
+                if(health > 0 && health < 50){
+                    //run away
+                    System.out.println(name + " was frightened");
+                }
+                if(health < 0){
+                    //remove person from the house(game)
+                    System.out.println("That's it Im leaving");
+                }
+                break;
+            case SHAKE:
+                health = health - 12;
+                break;
+            case THROW:
+                health = health - 9;
+                break;
+            default:
+                break;
+        }
+        return 0;
+    }
+    
     @Override
     public String toString(){
-        return "Name: " + name + " Description: " + description;
+        return "\nName: " + name + " Description: " + description;
     }
     
 }

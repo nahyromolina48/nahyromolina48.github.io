@@ -1,15 +1,10 @@
 package scaryhouse;
 
 import java.util.HashMap;
-import java.util.Scanner;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-/**
- *
- * @author Nahyro
- */
 public class Parser extends DefaultHandler {
     Player person;
     Room r;

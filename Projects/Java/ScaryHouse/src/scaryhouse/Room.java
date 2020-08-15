@@ -1,20 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package scaryhouse;
 
 import java.util.ArrayList;
-
-/**
- *
- * @author Nahyro
- */
 public class Room {
 
     String name, description;
-    Room n, s, e, w;
+    Room north, south, east,west;
     ArrayList<Item> stuff = new ArrayList<>();
     ArrayList<Characters> people = new ArrayList<>();
 
@@ -32,35 +22,35 @@ public class Room {
     }
 
     public Room getNorth() {
-        return n;
+        return north;
     }
 
     public Room getSouth() {
-        return s;
+        return south;
     }
 
     public Room getEast() {
-        return e;
+        return east;
     }
 
     public Room getWest() {
-        return w;
+        return west;
     }
 
     public void setNorth(Room n) {
-        this.n = n;
+        this.north = n;
     }
 
     public void setSouth(Room s) {
-        this.s = s;
+        this.south = s;
     }
 
     public void setEast(Room e) {
-        this.e = e;
+        this.east = e;
     }
 
     public void setWest(Room w) {
-        this.w = w;
+        this.west = w;
     }
 
     public void addCharacter(Characters c) {
@@ -71,7 +61,6 @@ public class Room {
     public void removeCharacter(Characters c) {
         people.remove(c);
     }
-
     public void addItem(Item e) {
         stuff.add(e);
     }
@@ -79,25 +68,50 @@ public class Room {
     public void removeItem(Item e) {
         stuff.remove(e);
     }
-
-    public ArrayList<Item> getItemList() {
-        return stuff;
+    
+    public Boolean isPresent(String s,String a){
+        for(Item i : stuff){
+            if(i.name.equals(s)){
+                return i.abilities.contains(Item.Actions.valueOf(a));
+            }
+        }
+        return false;
+    }
+    
+    public String printItemList(){
+        String info = "\n\nItems in Room:";
+        for(Item i : stuff){
+            info = info + i.toString();
+        }
+        return info;
     }
 
-    public void printItemList() {
-        System.out.println("\nItems in this Room:");
-        stuff.stream().forEach((product) -> {
-            System.out.println(product.name);
-        });
-    }
 
     @Override
     public String toString() {
-        String info = "\nRoom: " + name + " Details: " + description + "\n\n"
-                + "Adjacent Rooms: \nNorth: " + this.getNorth().getName() + ""
-                + "\nSouth: " + this.getSouth().getName();
-
-        return info;
+        String roomInfo = "\nRoom: " + name + " Details: " + description;
+        roomInfo = roomInfo + "\n\nItems in Room:";
+        for(Item i : stuff){
+            roomInfo = roomInfo + i.toString();
+        }
+        roomInfo = roomInfo + "\n\nPeople in Room:";
+        for(Characters c : people){
+            roomInfo = roomInfo + c.toString();
+        }
+        roomInfo = roomInfo + "\n\nNearby Rooms:";
+        if (north != null) {
+            roomInfo = roomInfo + "\nnorth: " + north.getName();
+        }
+        if (south != null) {
+            roomInfo = roomInfo + "\nsouth: " + south.getName();
+        }
+        if (east != null) {
+            roomInfo = roomInfo + "\neast: " + east.getName();
+        }
+        if (west != null) {
+            roomInfo = roomInfo + "\nwest: " + west.getName();
+        }
+        return roomInfo;
     }
 
 }

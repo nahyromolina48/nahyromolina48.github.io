@@ -33,15 +33,22 @@ public class Item {
     public String getItemDetail(){
         return description;
     }
-    
-    public String getActions(){
-        return abilities.toString();
+
+    public Item getItem(){
+        return this;
     }
     
     public void addAction(Actions a) {
         if(!abilities.contains(a)){
             abilities.add(a);
         }
+    }
+    
+    
+    
+    @Override
+    public String toString(){
+        return "\nItem name: " + name + " Item Description: " + description + " Actions: " + abilities.toString();
     }
 
 }

@@ -11,7 +11,6 @@ package scaryhouse;
  */
 public class Child extends NPC {
 
-    Item stuff;
     Room r;
 
     public Child(String name, String description) {
@@ -30,30 +29,39 @@ public class Child extends NPC {
         return health;
     }
 
-    public int reaction(Item.Actions a) {
-        
-        if (health < 100 && health > 0) {
-            switch (a) {
-                case POSSESS:
-                    break;
-                case SHAKE:
-                    break;
-                case THROW:
-                    break;
-                default:
-                    break;
-
-            }
-        }else{
-            
+    public int reaction(Item.Actions s){
+        switch(s){
+            case POSSESS:
+                health = health - 18;
+                System.out.println(name + "'s Scared level: " + getScaredLevel());
+                if(health > 0 && health < 50){
+                    //run away method
+                    System.out.println(name + " was frightened");
+                }
+                if(health < 0){
+                    //remove person from the house(game) method
+                    System.out.println("That's it Im leaving");
+                }
+                break;
+            case SHAKE:
+                health = health - 15;
+                break;
+            case THROW:
+                health = health - 12;
+                break;
+            default:
+                break;
         }
-
-        return health;
+        return 0;
     }
 
     @Override
     public void setRoom(Room r) {
         this.r = r;
+    }
+    
+    public String toString(){
+        return "\nName: " + name + " Description: " + description;
     }
 
 }
